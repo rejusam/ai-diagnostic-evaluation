@@ -18,3 +18,14 @@ NZ clinical and population studies. See `config/parameters.yaml` for the
 full parameter specification with inline citations.
 
 No real patient data is used at any stage.
+
+## Key Data Sources for Simulation Parameters
+
+| Parameter | Source |
+|-----------|--------|
+| DR prevalence by ethnicity | Simmons et al. (2007) *Diabet Med*, 24(10):1093-1098 |
+| NZDep distribution by ethnicity | Loring et al. (2022) *NZ Med J*, 135(1565):31-40 |
+| AI tool performance (IDx-DR) | Abramoff et al. (2018) *NPJ Digit Med*, 1:39; Khan et al. (2025) *Am J Ophthalmol*, 273:192-204 |
+| AI tool performance (THEIA) | Vaghefi et al. (2023) *Eye*, 37(8):1683-1689 |
+| NZ diabetes population demographics | NZ Virtual Diabetes Register; Stats NZ Census 2018 |
+| Healthcare variation context | HQSC Atlas of Healthcare Variation — [Diabetes domain](https://www.hqsc.govt.nz/our-data/atlas-of-healthcare-variation/diabetes/) |

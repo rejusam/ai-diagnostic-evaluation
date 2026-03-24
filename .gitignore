@@ -32,8 +32,7 @@ data/*.parquet
 data/*.zip
 data/*.gz
 
-# Outputs (regenerable)
-outputs/figures/*.png
+# Outputs
 outputs/figures/*.pdf
 outputs/tables/*.csv
 outputs/tables/*.tex

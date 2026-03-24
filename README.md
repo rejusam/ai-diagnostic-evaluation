@@ -2,7 +2,11 @@
 
 A simulation-based evaluation framework for assessing the diagnostic accuracy
 and equity implications of AI-assisted diabetic retinopathy (DR) screening
-across demographic subgroups in the Aotearoa New Zealand population.
+across demographic subgroups in the Aotearoa New Zealand population. The
+framework models three AI tool profiles — including
+[THEIA](https://doi.org/10.1038/s41433-022-02217-w), a system developed and
+validated within the NZ diabetic retinal screening programme — and evaluates
+performance stratified by ethnicity and area deprivation (NZDep).
 
 ## Motivation
 
@@ -61,7 +65,7 @@ and documented in `config/parameters.yaml`.
 │   └── visualisation.py   # Plotting functions
 ├── data/                  # Generated data (not committed; see data/README.md)
 ├── outputs/
-│   └── figures/           # Generated plots (not committed)
+│   └── figures/           # Key output plots
 ├── requirements.txt
 └── LICENSE
 ```
@@ -75,6 +79,14 @@ pip install -r requirements.txt
 ```
 
 Run the notebooks in order — Notebook 01 generates the data used by 02 and 03.
+
+## Key Outputs
+
+| Figure | Description |
+|--------|-------------|
+| ![ROC Curves](outputs/figures/roc_curves.png) | ROC curves for three AI tool profiles |
+| ![Equity Heatmap](outputs/figures/intersectional_heatmap.png) | Sensitivity by ethnicity × NZDep quintile (differential scenario) |
+| ![Sensitivity Gap](outputs/figures/sensitivity_gap_ethnicity.png) | Sensitivity gap relative to NZ European |
 
 ## Key References
 
@@ -100,7 +112,12 @@ Run the notebooks in order — Notebook 01 generates the data used by 02 and 03.
 - Coyner AS, Singh P, Brown JM, et al. (2023). Association of biomarker-based AI
   with risk of racial bias in retinal images. *JAMA Ophthalmology*, 141(6):543-552.
 - Yogarajan V, Dobbie G, Leitch S, et al. (2022). Data and model bias in AI for
-  healthcare applications in New Zealand. *Frontiers in Computer Science*.
+  healthcare applications in New Zealand. *Frontiers in Computer Science*, 4:1070493.
+- Health Quality & Safety Commission (2019). *A window on the quality of Aotearoa
+  New Zealand's health care 2019 — a view on Māori health equity*. Wellington:
+  HQSC. Available at: https://www.hqsc.govt.nz/resources/resource-library/a-window-on-the-quality-of-aotearoa-new-zealands-health-care-2019-a-view-on-maori-health-equity-2/
+- Health Quality & Safety Commission. *Atlas of Healthcare Variation — Diabetes*.
+  Available at: https://www.hqsc.govt.nz/our-data/atlas-of-healthcare-variation/diabetes/
 
 ## Limitations
 
