@@ -1,0 +1,166 @@
+# =============================================================================
+# Simulation Parameters for AI Diabetic Retinopathy Screening Evaluation
+# =============================================================================
+# All values derived from published peer-reviewed literature.
+# Inline citations reference the original source for each parameter.
+# Where NZ-specific data was unavailable, international estimates are noted.
+
+cohort:
+  n_patients: 10000
+  random_seed: 42
+
+# ---- Demographics -----------------------------------------------------------
+demographics:
+  # Ethnicity distribution among NZ adults with diabetes
+  # Derived from Ministry of Health Virtual Diabetes Register (2021/2022)
+  # and Stats NZ Census 2018 ethnic proportions among adults with diabetes.
+  # Proportions are approximate and simplified for modelling purposes.
+  ethnicity_proportions:
+    nz_european: 0.48
+    maori: 0.16
+    pacific: 0.12
+    asian: 0.19
+    other: 0.05
+
+  # Age distribution (truncated normal, reflecting diabetic population)
+  # Mean/SD broadly consistent with NZ Virtual Diabetes Register age profile.
+  age:
+    mean: 62
+    std: 14
+    min: 18
+    max: 95
+
+  # Proportion female among NZ adults with diabetes
+  sex_female_proportion: 0.46
+
+  # NZDep2018 quintile distribution by ethnicity
+  # Source: Loring et al. (2022) NZ Med J, 135(1565):31-40
+  # Original data reported at decile level for Maori vs NZ European.
+  # Quintile distributions for Pacific, Asian, and Other groups are estimated
+  # from Census 2018 cross-tabulations of ethnicity and area deprivation.
+  # Q1 = least deprived, Q5 = most deprived
+  nzdep_by_ethnicity:
+    nz_european: [0.25, 0.24, 0.22, 0.17, 0.12]
+    maori: [0.08, 0.10, 0.15, 0.25, 0.42]
+    pacific: [0.04, 0.06, 0.12, 0.28, 0.50]
+    asian: [0.15, 0.20, 0.25, 0.22, 0.18]
+    other: [0.18, 0.20, 0.22, 0.20, 0.20]
+
+# ---- Clinical ---------------------------------------------------------------
+clinical:
+  # DR prevalence among people with diabetes, by ethnicity
+  # Primary source: Simmons et al. (2007) Diabet Med, 24(10):1093-1098
+  # Reported prevalence of moderate or worse DR (referable) in Type 2 diabetes:
+  #   European: 4.0%, Maori: 12.9%, Pacific: 15.8%
+  # Asian estimate derived from international literature (Yau et al., 2012,
+  #   Diabetes Care, 35(3):556-564) as NZ-specific data not available.
+
+  # Referable DR (moderate or worse, the screening target)
+  referable_dr_prevalence:
+    nz_european: 0.040
+    maori: 0.129
+    pacific: 0.158
+    asian: 0.080
+    other: 0.060
+
+  # Any DR (including mild non-referable)
+  # Overall DR prevalence among people with diabetes is approximately 25-35%
+  # internationally (Yau et al., 2012, pooled estimate 34.6%).
+  # NZ-specific values estimated from Simmons et al. (2007) and international
+  # data, with modest ethnic variation.
+  any_dr_prevalence:
+    nz_european: 0.25
+    maori: 0.30
+    pacific: 0.32
+    asian: 0.28
+    other: 0.26
+
+# ---- AI Tool Parameters -----------------------------------------------------
+# Three simulated AI tools representing different performance profiles.
+# Base sensitivity and specificity are drawn from published clinical trials.
+
+ai_tools:
+  tool_a:
+    name: "Autonomous AI (high sensitivity)"
+    description: >
+      Modelled on pooled performance from meta-analysis of IDx-DR/LumineticsCore
+      across 13 studies (n=13,233).
+    # Source: Khan et al. (2025) Am J Ophthalmol, 273:192-204
+    base_sensitivity: 0.95
+    base_specificity: 0.91
+
+  tool_b:
+    name: "Autonomous AI (pivotal trial)"
+    description: >
+      Modelled on the FDA pivotal trial of IDx-DR for detecting more than mild DR
+      in primary care (n=900).
+    # Source: Abramoff et al. (2018) NPJ Digit Med, 1:39
+    base_sensitivity: 0.872
+    base_specificity: 0.907
+
+  tool_c:
+    name: "Semi-automated AI (NZ-developed)"
+    description: >
+      Modelled on the THEIA system prospective multi-centre trial in the NZ diabetic
+      retinal screening programme (n=900). The trial reported 100% sensitivity
+      (95% CI lower bound 98.49%) and 98.33% specificity at patient level for
+      referable DR. We use the CI lower bound as a conservative estimate.
+    # Source: Vaghefi et al. (2023) Eye, 37(8):1683-1689. Epub 2022 Sep 3.
+    base_sensitivity: 0.985
+    base_specificity: 0.983
+
+# ---- Equity Scenario Parameters ---------------------------------------------
+# Two evaluation scenarios are modelled:
+#
+# 1. EQUAL PERFORMANCE: AI tool performs identically across all demographic
+#    subgroups. This reflects the ideal case and is consistent with findings from
+#    Abramoff et al. (2024) NPJ Digit Med, 7(1):369 (improved IDx-DR showed no
+#    racial, ethnic, or sex bias).
+#
+# 2. DIFFERENTIAL PERFORMANCE: AI tool performance varies modestly by demographic
+#    subgroup. This reflects evidence from:
+#    - Seyyed-Kalantari et al. (2021) Nat Med, 27(12):2176-2182:
+#      AI classifiers underdiagnose under-served populations
+#    - Coyner et al. (2023) JAMA Ophthalmol, 141(6):543-552:
+#      CNNs can infer race from retinal images, creating potential for bias
+#    - Yogarajan et al. (2022) Front Comput Sci:
+#      NZ-specific evidence of bias affecting Maori and Pacific populations
+#
+#    Modifier values are illustrative and represent plausible magnitudes of
+#    differential performance based on the pattern of findings in the literature.
+#    They are NOT directly measured values. This should be interpreted as a
+#    scenario analysis exploring "what if" AI performance varies.
+
+equity_scenarios:
+  differential:
+    # Multiplicative modifiers applied to base sensitivity/specificity
+    # 1.0 = no change from base performance
+    sensitivity_by_ethnicity:
+      nz_european: 1.00
+      maori: 0.96
+      pacific: 0.95
+      asian: 0.98
+      other: 0.98
+
+    specificity_by_ethnicity:
+      nz_european: 1.00
+      maori: 0.97
+      pacific: 0.96
+      asian: 0.99
+      other: 0.99
+
+    # NZDep-related modifiers — proxy for image quality variation,
+    # comorbidity burden, and healthcare access factors
+    sensitivity_by_nzdep:
+      1: 1.00
+      2: 0.99
+      3: 0.98
+      4: 0.97
+      5: 0.95
+
+    specificity_by_nzdep:
+      1: 1.00
+      2: 1.00
+      3: 0.99
+      4: 0.98
+      5: 0.97
